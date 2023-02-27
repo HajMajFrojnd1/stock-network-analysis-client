@@ -1,0 +1,476 @@
+@import url("https://fonts.googleapis.com/css2?family=Lato&family=Poppins:wght@600;700;900&display=swap");
+
+html{
+  font-size: 16px;
+}
+body {
+  margin: 0;
+  font-family: "Lato", -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #0A0A0A;
+  width: calc(100vw - 4rem);
+  height: calc(100vh - 4rem);
+  max-height: 100vh;
+  max-width: 100vw;
+  overflow: hidden;
+  padding: 2rem;
+}
+
+#root{
+  width: 100%;
+  height: 100%;
+}
+
+.mw{
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
+
+button{
+  margin: 0;
+  padding: 0.5rem 2rem;
+  outline: none;
+  cursor: pointer;
+  font-size: 1.25rem;
+  font-family: "Poppins";
+  font-weight: 700;
+  color: white;
+}
+
+.main-button{
+  border-radius: 1rem;
+  background: linear-gradient(#fd3e3b 0%, #fb6634 100%);
+}
+
+
+.secondary-button{
+  border-radius: 1rem;
+  background-color: rgba(0, 0, 0, 0);
+  border-image-slice: 1;
+  border-image-source: linear-gradient(#fd3e3b 0%, #fb6634 100%);
+  border: 2px solid;
+}
+
+.special-button{
+  height: 100%;
+  aspect-ratio: 1/1;
+  border-radius: 16rem;
+  background: linear-gradient(#fd3e3b 0%, #fb6634 100%);
+  position: relative;
+  padding: 1.5rem;
+  border: 0;
+}
+
+.special-button img{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate3d(-50%,-50%,0);
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+
+.top-section{
+  width: 100%;
+  margin-bottom: 3rem;
+  padding: 2rem;
+  background-color: #111111;
+  display: flex;
+}
+
+.w100{
+  width: 100%;
+}
+
+.left-side{
+  display: flex;
+  flex-direction: column;
+  margin-right: 3rem;
+  flex-grow: 7;
+  width: 62%;
+
+}
+
+.right-side{
+
+  display:  flex;
+  flex-direction: column;
+  height: 100%;
+  flex-grow: 1;
+  border-radius: 1rem;
+  
+}
+
+.top-bar{
+  width: calc(100% - 3rem);
+  display: flex;
+  flex-direction: row;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  background-color: #111111;
+  margin-bottom: 1rem;
+}
+
+.top-bar .fwrap +.fwrap{
+  margin-left: 1rem;
+}
+
+.right-side .container{
+ 
+  flex-grow: 0;
+  background-color: #111111;
+  padding: 2rem;
+  border-radius: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.right-side .container + .container{
+  margin-top: 3rem;
+  flex-grow: 2;
+}
+
+.right-side .container p{
+  font-family: "Poppins";
+  font-weight: 600;
+  font-size: 1.5rem;
+  color: #fff;
+  opacity: 0.8;
+  align-self: center;
+  margin-bottom: 2rem;
+}
+
+.right-side .fwrap + .fwrap{
+  margin-top: 1rem;
+}
+
+.right-side .container .information{
+  display: flex;
+  align-items: flex-start;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.right-side .container .information + .information{
+  margin-top: 1rem;
+}
+
+.right-side .container .information span{
+  font-family: Lato;
+  font-weight: normal;
+  font-size: 1rem;
+  text-align: left;
+  color: #fff;
+  opacity: 0.7;
+  margin: 0;
+  padding-right: 1rem;
+}
+
+.right-side .container .information p{
+  width: 180px;
+  height: 50px;
+  font-family: Lato;
+  font-weight: 600;
+  font-size: 1rem;
+  text-align: right;
+  color: #fff;  
+  display: block;
+  height: 100%;
+  margin: 0;
+  flex-grow: 2;
+}
+
+.fwrap{
+  border-radius: 1rem;
+  background: #0a0a0a;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem 1.5rem;
+
+}
+
+.fwrap span{
+  font-family: "Lato";
+  font-weight: normal;
+  font-size: 1rem;
+  text-align: center;
+  color: #fff;
+  opacity: 0.7;
+  margin-bottom: 0.75rem;
+}
+
+.fwrap input{
+  background: #171717;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  border: 0;
+  font-family: Lato;
+  font-weight: normal;
+  font-size: 16px;
+  text-align: center;
+  color: #fff;
+  width: 2rem;
+}
+
+.fwrap-child{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.fwrap-child div + div{
+  margin-left: 1rem;
+}
+
+.fwrap-child div{
+  height: 100%;
+}
+.fwrap-child select{
+  height: 100%;
+}
+select{
+  background: #171717;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  border: 0;
+  font-family: Lato;
+  font-weight: normal;
+  font-size: 16px;
+  color: #fff;
+  /* reset */
+  appearance: none;
+  outline: 0;
+  border: 0;
+  box-shadow: none;
+  /* Personalize */
+  flex: 1;
+  background-image: none;
+  cursor: pointer;
+  padding-right: 4rem;
+}
+
+select::-ms-expand {
+  display: none;
+}
+/* Custom Select wrapper */
+.select {
+  position: relative;
+  display: flex;
+  border-radius: .25em;
+  overflow: hidden;
+}
+/* Arrow */
+.select::after {
+  content: '\25BC';
+  color: white;
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 1rem;
+  border-radius: 0 0.5rem;
+  background-color: #111;
+  transition: .25s all ease;
+  pointer-events: none;
+  height: 100%;
+}
+/* Transition */
+.select:hover::after {
+  color: #FB6634;
+}
+
+.graph-wrap{
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  position: relative;
+}
+
+.sigma-controller{
+
+  position: absolute;
+  padding: 1rem 2rem;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(17, 17, 17, 0.6);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(7.2px);
+  -webkit-backdrop-filter: blur(7.2px);
+  border: 1px solid rgba(17, 17, 17, 0.3);
+}
+
+.graph_settings{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #0a0a0a;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  color: white;
+  display: flex;
+  flex-flow: column;
+  justify-content: flex-start;
+  z-index: 11;
+  max-height: 70%;
+  overflow-y: scroll;
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.graph_settings::-webkit-scrollbar {
+  display: none;
+}
+
+.graph_settings h2{
+  font-family: "Poppins";
+  font-weight: 600;
+  font-size: 1.5rem;
+  color: #fff;
+  opacity: 0.8;
+  align-self: center;
+  margin: 0;
+  margin-bottom: 1rem;
+}
+
+.graph_settings .info span{
+  font-family: Lato;
+  font-weight: normal;
+  font-size: 1rem;
+  text-align: left;
+  color: #fff;
+  margin: 0;
+  padding-right: 1rem;
+}
+
+.graph_settings .info{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.graph_settings .info + .info{
+  margin-top: 1.5rem;
+}
+
+.graph_settings .color_box{
+  width: 4rem;
+  height: 1rem;
+  border: 1px solid white;
+  cursor: pointer;
+}
+
+.graph_settings .section{
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+}
+
+.graph_settings .section + .section{
+  margin-top: 2rem;
+}
+
+.temporal_current_date{
+  position: absolute;
+  left: 2rem;
+  top: 2rem;
+  font-family: "Poppins";
+  font-weight: 600;
+  font-size: 1.5rem;
+  color: #000;
+}
+
+.portfolio_btns{
+  width: 100%;
+  display: flex;
+}
+
+.portfolio_btns div{
+  margin-top: 1rem;
+  flex-grow: 1;
+}
+.portfolio_btns div button{
+  width: 100%;
+}
+.portfolio_btns div + div{
+  margin-left: 1rem;
+}
+
+.portfolio_btns .main-button{
+  font-size: 1rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+.portfolio_btns .secondary-button{
+  font-size: 1rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.p_chart{
+  background-color: #111111;
+  border-radius: 2rem;
+  width: 100%;
+  padding: 1rem;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.p_chart + .p_chart{
+  margin-left: 1rem;
+}
+
+.p_chart .chart{
+  background-color: white;
+  width: 100%;
+  height: 100%;
+  padding: 2rem;
+  box-sizing: border-box;
+  border-radius: 1.5rem;
+}
+
+.chart_options{
+  position: absolute;
+  bottom: 2rem;
+  background-color: #0A0A0A;
+  padding: 1rem;
+  border-radius: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-wrap: nowrap;
+  opacity: 0.1;
+}
+
+.chart_options p{
+  font-family: Lato;
+  font-weight: normal;
+  font-size: 0.9rem;
+  text-align: center;
+  color: #fff;
+  background-color: #171717;
+  padding: 0.4rem 1rem;
+  border-radius: 2rem;
+  margin: 0;
+}
+
+.chart_options p + p{
+  margin-left: 0.5rem;
+}
+
+.chart_options p:hover{
+  cursor: pointer;
+}
+
+.chart_options .selected{
+
+}
