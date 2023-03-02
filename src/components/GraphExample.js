@@ -74,12 +74,9 @@ import GraphSettingsController from "./GraphSettingsController";
         forceUpdate();
       }
       
-    
 
     }
   
-    useEffect(() => {},[mainGraph]);
-
     useEffect(() => {
 
         const graph = mainGraph.getGraph();
@@ -87,7 +84,6 @@ import GraphSettingsController from "./GraphSettingsController";
 
     }, [props.graphsData]);
 
-    console.log(props.layout);
 
     if(props.layout === "double_sideways" && mainGraph.getGraph().nodes().length > 0){
       return (

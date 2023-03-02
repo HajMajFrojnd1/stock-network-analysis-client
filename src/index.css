@@ -100,7 +100,6 @@ button{
 
   display:  flex;
   flex-direction: column;
-  height: 100%;
   flex-grow: 1;
   border-radius: 1rem;
   
@@ -471,6 +470,19 @@ select::-ms-expand {
   cursor: pointer;
 }
 
-.chart_options .selected{
+.chart_stats{
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+}
 
+.chart_stats h2{
+  font-family: "Poppins";
+  font-weight: 600;
+  font-size: 1.5rem;
+  color: #fff;
+  opacity: 0.8;
+  align-self: center;
+  margin: 0;
+  margin-bottom: 1rem;
 }

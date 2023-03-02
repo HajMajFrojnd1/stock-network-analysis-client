@@ -17,6 +17,7 @@ import Switch from 'react-input-switch';
 import PortfolioChart from "./PortoflioChart";
 import HistoryFetch from "../scripts/historyFetching";
 import { Stocks } from "../instances/StockHistory.ts";
+import { parseOptionsDate } from "../scripts/utilityFunctions";
 
 const PortfolioLayout = ({toggleMode}) => {
 
@@ -98,15 +99,6 @@ const PortfolioLayout = ({toggleMode}) => {
         controllerListener.cleanListeners();
         setGraphNodes(graphInstance.getNodes())
         forceUpdate();
-    }
-
-    const parseOptionsDate = (date) =>{
-        date = date.replaceAll(".", "-").split(" - ");
-        let start = date[0].split("-");
-        start = start[2] + "-" + start[1] + "-" + start[0];
-        let end = date[1].split("-");
-        end = end[2] + "-" + end[1] + "-" + end[0];
-        return [start, end];
     }
 
     const changeOptions = (id, date) => {
@@ -263,6 +255,7 @@ const PortfolioLayout = ({toggleMode}) => {
                     <PortfolioChart data={chartData1}
                                     dataTwo={chartData2}
                                     updateChart={updateChart}
+                                    range={portfolioRange}
                                     />
                 }
             </div>

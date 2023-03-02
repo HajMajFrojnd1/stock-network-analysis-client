@@ -15,7 +15,7 @@ class HistoryFetch {
 
         return await (
             await fetch(
-              "http://127.0.0.1:8081/spx" + start + "/" + end
+              "http://127.0.0.1:8081/spx/" + start + "/" + end
             )
           ).json();
 
@@ -27,7 +27,7 @@ class HistoryFetch {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ tickers: tickers, range:range, from: from, to: to})
       };
-
+      console.log(requestOptions);
       return await (
         await fetch(
           "http://127.0.0.1:8081/portfolio/data",
@@ -37,6 +37,14 @@ class HistoryFetch {
 
 
     };
+
+    static fetchSpxCandlesticks = async () => {
+      return await (
+        await fetch(
+          "http://127.0.0.1:8081/spx/candlesticks"
+        )
+      ).json();
+    }
 
 }
 

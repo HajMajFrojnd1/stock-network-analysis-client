@@ -11,6 +11,7 @@ import forceAtlas2 from 'graphology-layout-forceatlas2';
 import MySigmaController from "./MySigmaController";
 import ComplexListener from "../scripts/ComplexListener";
 import { aggr } from "../settings/graphFilters";
+import { parseOptionsDate } from "../scripts/utilityFunctions";
 
 
 
@@ -27,7 +28,6 @@ const TemporalLayout = ({toggleMode}) => {
     const [currentGraph, setCurrentGraph] = useState(null);
     const [nextGraph, setNextGraph] = useState(null);
     const [isLoading , setIsLoading] = useState(true);
-    const [rangeGraphs, setRangeGraphs] = useState([]);
     const [, updateState] = useState();
     const forceUpdate = useCallback(() => updateState({}), []);
 
@@ -55,6 +55,10 @@ const TemporalLayout = ({toggleMode}) => {
         dataFetch(aggrValue,type,simType);
     }
 
+    const changeOptions = (id, date) => {
+        setCurrentDateRange(parseOptionsDate(date));
+    }
+
 
     const setOptions = async () => {
         let sim = await GraphFetch.fetchSimTypes();
@@ -65,7 +69,7 @@ const TemporalLayout = ({toggleMode}) => {
 
     const updateDateOptions = (options) =>{
         setDateOptions(options);
-        setCurrentDateRange(options[0].dates);
+        setCurrentDateRange(parseOptionsDate(options[0].dates));
     }
 
     const updateTemporalGraph = () =>{
@@ -160,12 +164,8 @@ const TemporalLayout = ({toggleMode}) => {
 
     const fetchAggregatedGraphs = async () => {
 
-        let start_end = currentDateRange.split(" - ");
-        let start_split = start_end[0].split(".");
-        let end_split = start_end[1].split(".");
-
-        let start = new Date(start_split[2] + "-" + start_split[1] + "-" + start_split[0]);
-        let end = new Date(end_split[2] + "-" + end_split[1] + "-" + end_split[0]);
+        let start = new Date(currentDateRange[0]);
+        let end = new Date(currentDateRange[1]);
         const ranges = await GraphFetch.fetchNoDataSimilarity(1,rangeType,simType);
         let rangeGraphs = [];
 
@@ -175,7 +175,8 @@ const TemporalLayout = ({toggleMode}) => {
                 rangeGraphs.push(range);
             }
         });
-        setCurrentDateRange(rangeGraphs);
+        console.log(rangeGraphs);
+        //setCurrentDateRange([rangeGraphs[1].start, rangeGraphs[0].start]);
         let finalGraphs = rangeGraphs.map((range) => {
             return GraphFetch.fetchGraphId(range.id);
         });
@@ -234,6 +235,7 @@ const TemporalLayout = ({toggleMode}) => {
                                 simTypesOptions={simTypes}
                                 aggrChange={updateAggrValue}
                                 rangeChange={updateRangeType}
+                                changeOptions={changeOptions}
                                 toggleMode={toggleMode}
                                 modes={2}
                                 />

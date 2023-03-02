@@ -84,17 +84,17 @@ const TemporalGraphAnimation = ({currentGraph, nextGraph, listener, update, curr
                         if(graph.hasNode(node)){
                             let other_attributes = nextGraph.getNodeAttributes(node);
                             let pos = getPositionAlongTheLine(
-                                                                attributes.old_x, 
-                                                                attributes.old_y, 
-                                                                other_attributes.x, 
-                                                                other_attributes.y, 
-                                                                percentage
-                                                            );
+                                            attributes.old_x, 
+                                            attributes.old_y, 
+                                            other_attributes.x, 
+                                            other_attributes.y, 
+                                            percentage
+                                        );
                             let color = transitionColor(
-                                                            String(other_attributes.color).substr(1), 
-                                                            String(attributes.old_color).substr(1), 
-                                                            percentage
-                                                        );
+                                            String(other_attributes.color).substr(1), 
+                                            String(attributes.old_color).substr(1), 
+                                            percentage
+                                        );
                             return {
                                 ...attributes,
                                 x: pos.x,
@@ -171,7 +171,7 @@ const TemporalGraphAnimation = ({currentGraph, nextGraph, listener, update, curr
             animateNodes();
             reduceEdges(currentGraph,nextGraph);
         }
-
+        console.log("added");
         listener.addListener(animate, "start");
 
         listener.addListener(stopAnimate, "stop");
@@ -179,6 +179,7 @@ const TemporalGraphAnimation = ({currentGraph, nextGraph, listener, update, curr
         return(() => {
             listener.removeListener(animate, "start");
             listener.removeListener(stopAnimate, "stop");
+            console.log("removed");
         })
 
     },[])
@@ -201,7 +202,7 @@ const TemporalGraphAnimation = ({currentGraph, nextGraph, listener, update, curr
                                     />
                 <div className="temporal_current_date">
                     {
-                        currentDate !== undefined && currentDate.start
+                        currentDate !== undefined && currentDate
                     }
                 </div>
             </div>

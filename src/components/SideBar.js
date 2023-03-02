@@ -1,26 +1,34 @@
 import Information from "./Information";
 
-const SideBar = (props) =>{
+const SideBar = ({stockInformation, graphsData}) =>{
 
     return (
 
         <div className="right-side">
             <Information title="Stock Information">
                 <div className="information">
-                    <span>Company</span><p>{props.stockInformation.name}</p>
+                    <span>Company</span><p>{stockInformation.name}</p>
                 </div>
                 <div className="information">
-                    <span>Ticker</span><p>{props.stockInformation.ticker}</p>
+                    <span>Ticker</span><p>{stockInformation.ticker}</p>
                 </div>
                 <div className="information">
-                    <span>Industry</span><p>{props.stockInformation.industry}</p>
+                    <span>Industry</span><p>{stockInformation.industry}</p>
                 </div>
                 <div className="information">
-                    <span>Sector</span><p>{props.stockInformation.sector}</p>
+                    <span>Sector</span><p>{stockInformation.sector}</p>
                 </div>
             </Information>
-            <Information title="Node Information">
-            </Information>
+            {("nodes" in graphsData) &&
+                <Information title="Node Information">
+                    <div className="information">
+                        <span>Nodes</span><p>{graphsData.nodes.length}</p>
+                    </div>
+                    <div className="information">
+                        <span>Edges</span><p>{graphsData.edges.length}</p>
+                    </div>
+                </Information>
+            }
         </div>
 
     );

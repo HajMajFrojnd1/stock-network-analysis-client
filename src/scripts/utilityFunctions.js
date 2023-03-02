@@ -61,9 +61,19 @@ const getPositionAlongTheLine = (x1, y1, x2, y2, percentage) => {
           };
 }
 
+const parseOptionsDate = (date) =>{
+  date = date.replaceAll(".", "-").split(" - ");
+  let start = date[0].split("-");
+  start = start[2] + "-" + start[1] + "-" + start[0];
+  let end = date[1].split("-");
+  end = end[2] + "-" + end[1] + "-" + end[0];
+  return [start, end];
+}
+
 module.exports.parseDate = parseDate;
 module.exports.stringToColour = stringToColour;
 module.exports.scaleRange = scaleRange;
 module.exports.getRandomColor = selectColor;
 module.exports.transitionColor = transitionColor;
 module.exports.getPositionAlongTheLine = getPositionAlongTheLine;
+module.exports.parseOptionsDate = parseOptionsDate;

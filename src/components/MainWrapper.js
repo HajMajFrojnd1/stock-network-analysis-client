@@ -140,7 +140,9 @@ const MainWrapper = () => {
                                 layout={layout}
                                 />
             </div>
-            <SideBar stockInformation={stockInformation}/>
+            <SideBar    stockInformation={stockInformation} 
+                        graphsData={graphsData}
+                        />
         </div>
     );
 }
