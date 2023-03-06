@@ -3,6 +3,7 @@ https://github.com/jacomyal/sigma.js/#installation
 https://www.youtube.com/watch?v=Dorf8i6lCuk
 https://www.cylynx.io/blog/a-comparison-of-javascript-graph-network-visualisation-libraries/
 https://danfo.jsdata.org/getting-started
+https://www.freecodecamp.org/news/parsing-math-expressions-with-javascript-7e8f5572276e/
 
 # Getting Started with Create React App
 
