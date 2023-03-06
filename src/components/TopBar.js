@@ -6,8 +6,9 @@ import timer from "../images/timer.svg"
 import double_sideways from "../images/double_sideways.svg"
 import double_upper from "../images/double_upper.svg"
 import triple from "../images/triple_layout.svg"
-import single from "../images/single_layout.svg"
+import network from "../images/graph_n.svg"
 import quad from "../images/quad_layout.svg"
+import candles from "../images/candles.svg"
 import { types } from "../settings/graphFilters";
 import { useState } from "react";
 
@@ -44,7 +45,7 @@ const TopBar = (props) =>{
                 </FilterWrapper>
                 <FilterWrapper title="Lyout Option">
                     <Button class="special-button"  
-                            image={single}
+                            image={network}
                             onClick={
                                 () => props.changeLayout(props.layoutOptions.single)
                             }
@@ -85,6 +86,12 @@ const TopBar = (props) =>{
                             image={graph}
                             onClick={
                                 () => props.toggleMode(2)
+                            }
+                            />
+                    <Button class="special-button"  
+                            image={candles}
+                            onClick={
+                                () => props.toggleMode(3)
                             }
                             />
                 </FilterWrapper>

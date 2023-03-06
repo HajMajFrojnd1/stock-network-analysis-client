@@ -90,10 +90,9 @@ button{
 .left-side{
   display: flex;
   flex-direction: column;
-  margin-right: 3rem;
   flex-grow: 7;
   width: 62%;
-
+  height: 100%;
 }
 
 .right-side{
@@ -102,6 +101,7 @@ button{
   flex-direction: column;
   flex-grow: 1;
   border-radius: 1rem;
+  margin-left: 1rem;
   
 }
 
@@ -130,7 +130,7 @@ button{
 }
 
 .right-side .container + .container{
-  margin-top: 3rem;
+  margin-top: 1rem;
   flex-grow: 2;
 }
 
@@ -485,4 +485,10 @@ select::-ms-expand {
   align-self: center;
   margin: 0;
   margin-bottom: 1rem;
+}
+
+.graph_right_side{
+  width: 100%;
+  display: flex;
+  flex: 1;
 }

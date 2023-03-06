@@ -11,11 +11,11 @@ const PortfolioChart = ({data, dataTwo, updateChart, solo = false, range}) => {
         return (
             <div style={{width: "100%", height: "100%", display: "flex", flexFlow: "column"}}>
                 <div style={{width: "100%",display: "flex", marginBottom: "1rem"}}>
-                    <ChartStats title={"SPX Performance" + " " + range}
+                    <ChartStats title={"SPX Performance " + range}
                                 data={data}
                                 dataKey="SPX Change"
                                 />
-                    <ChartStats title={"Custom Portfolio Performance" + " " + range}
+                    <ChartStats title={"Custom Portfolio Performance " + range}
                                 data={dataTwo}
                                 dataKey="Custom Graph Change" 
                                 />

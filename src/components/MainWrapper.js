@@ -8,6 +8,7 @@ import { parseDate } from "../scripts/utilityFunctions";
 import { useState, useEffect } from "react";
 import GraphFetch from "../scripts/graphFetching";
 import PortfolioLayout from "./PortfolioBuilder";
+import CandleSicksTrend from "./CandleSticksTrend";
 
 const MainWrapper = () => {
 
@@ -19,7 +20,7 @@ const MainWrapper = () => {
     const [simType, setSimType] = useState("gaussian_based");
     const [simTypes, setSimTypes] = useState([]);
     const [layout, setLayout] = useState("single");
-    const [isTemporalLayout, setIsTemporalLayout] = useState(0);
+    const [isTemporalLayout, setIsTemporalLayout] = useState(3);
 
     const layout_types = {
         single: "single",
@@ -107,6 +108,13 @@ const MainWrapper = () => {
 
     }, []);
 
+    if(isTemporalLayout === 3){
+        return (
+            <CandleSicksTrend   toggleMode={toggleMode}
+                                simTypes={simTypes}
+                                />
+        )
+    }
 
     if(isTemporalLayout === 2){
         return (
@@ -135,14 +143,17 @@ const MainWrapper = () => {
                         simChange={updateSimType}
                         toggleMode={toggleMode}
                         />
+                <div className="graph_right_side" >
                 <DisplayGraph   graphsData={graphsData} 
                                 setStockInformation={updateStockInformation}
                                 layout={layout}
                                 />
-            </div>
-            <SideBar    stockInformation={stockInformation} 
+                <SideBar    stockInformation={stockInformation} 
                         graphsData={graphsData}
                         />
+                </div>
+            </div>
+
         </div>
     );
 }

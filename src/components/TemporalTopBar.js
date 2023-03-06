@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import single from "../images/single_layout.svg"
 import graph from "../images/graph.svg"
 import timer from "../images/timer.svg"
+import candles from "../images/candles.svg"
 
 
 const TemporalTopBar = (props) => {
@@ -59,6 +60,12 @@ const TemporalTopBar = (props) => {
                             }
                             />
                     }
+                    <Button class="special-button"  
+                            image={candles}
+                            onClick={
+                                () => props.toggleMode(3)
+                            }
+                            />
                 </FilterWrapper>
         </div>
     )
