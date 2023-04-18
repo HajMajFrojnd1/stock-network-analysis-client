@@ -34,8 +34,6 @@ class HistoryFetch {
           requestOptions
         )
       ).json();
-
-
     };
 
     static fetchSpxCandlesticks = async () => {
