@@ -1,12 +1,14 @@
 const types = [
     "day", 
     "month", 
-    "year"
+    "year",
+    "historical"
 ];
 const aggr = {
     "day": {min: 1, max: 30},
     "month": {min: 1, max: 6}, 
-    "year": {min: 1, max: 3}
+    "year": {min: 1, max: 3},
+    "historical": {min: 1, max:1}
 };
 
 const chartOptions = [

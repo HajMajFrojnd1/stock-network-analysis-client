@@ -1,7 +1,10 @@
 import Graph from "graphology";
 import {setGraphLouvain} from "../scripts/graphUtilityFunctions";
 import louvain, {DetailedLouvainOutput} from "graphology-communities-louvain";
-import { getRandomColor, stringToColour, scaleRange } from "../scripts/utilityFunctions";
+import { getRandomColor, stringToColour, scaleRange, interpolateHeatColor} from "../scripts/utilityFunctions";
+import betweennessCentrality from "graphology-metrics/centrality/betweenness";
+import closenessCentrality from "graphology-metrics/centrality/closeness";
+import {degreeCentrality} from "graphology-metrics/centrality/degree";
 
 type MyDetailedLouvainOutput = DetailedLouvainOutput & {colors: string[]};
 
@@ -19,6 +22,7 @@ class GraphInstance {
         this.calculateLouvain();
         this.graphSectors();
         this.startGraph = graph.copy();
+        this.calculateCentralities();
     }
 
     private graphSectors(): void {
@@ -50,7 +54,6 @@ class GraphInstance {
                 this.louvainDetails.colors.push(getRandomColor(i+1, this.louvainDetails.count))
             }
         }
-
     }
 
     public getLouvainGraph(): Graph{
@@ -69,6 +72,65 @@ class GraphInstance {
         });
 
 
+        return graph;
+    }
+
+    private getMinMiddleMaxCentralityValues(centrality:string): number[]{
+
+        let min = 0;
+        let max = 0;
+        let cent: Obj;
+
+        if(centrality == "betweennessCentrality"){
+            cent = this.getBetweennessCentrality();
+        }else if(centrality == "closenessCentrality"){
+            cent = this.getClosenessCentrality();
+        }else{
+            cent = this.getDegreeCentrality();
+        }
+
+        for (let key in cent){
+
+            if(cent[key] > max){
+                max = cent[key];
+            }else if(cent[key] < min){
+                min = cent[key];
+            }
+
+        }
+
+        let middle = min + (max - min)/2;
+
+        return [min, middle, max];
+    }
+
+    private setCentralityColor(color:string, graph: Graph):void{
+        let [min, middle, max] = this.getMinMiddleMaxCentralityValues(color);
+        graph.forEachNode(node => {
+            let value = this.graph.getNodeAttribute(node, color);
+            graph.setNodeAttribute(
+                node, 
+                "color", 
+                interpolateHeatColor(min,middle,max,value)
+            );
+        });
+    }
+
+    public getBetweennessGraph(): Graph{
+        let graph: Graph = this.graph.copy();
+        this.setCentralityColor("betweennessCentrality", graph);
+        return graph;
+    }
+
+    public getClosenessGraph(): Graph{
+        let graph: Graph = this.graph.copy();
+        this.setCentralityColor("closenessCentrality", graph);
+        return graph;
+    }
+
+    public getDegreeGraph(): Graph{
+        let graph: Graph = this.graph.copy();
+        this.setCentralityColor("degreeCentrality", graph);
         return graph;
     }
 
@@ -131,6 +193,7 @@ class GraphInstance {
         this.calculateLouvain();
         this.graphSectors();
         this.startGraph = graph.copy();
+        this.calculateCentralities();
     }
 
     public reduceGraphEdgesWeight(weight:number): void {
@@ -179,6 +242,7 @@ class GraphInstance {
 
     public resetGraph(): void {
         this.graph = this.startGraph.copy();
+        this.calculateCentralities();
     }
 
     private calculateSizes():void {
@@ -208,6 +272,56 @@ class GraphInstance {
 
     public getDegreeSum(): number{
         return this.graph.nodes().map((node) => this.graph.degree(node)).reduce((sum, degree) => sum + degree);
+    }
+
+    public calculateDegreeCentrality(): Obj {
+        degreeCentrality.assign(this.graph);
+        return this.getAttributes("degreeCentrality");
+    }
+
+    public calculateBetweennessCentrality(): Obj {
+        betweennessCentrality.assign(this.graph);
+        return this.getAttributes("betweennessCentrality");
+    }
+
+    public calculateClosenessCentrality(): Obj {
+        closenessCentrality.assign(this.graph);
+        return this.getAttributes("closenessCentrality");
+    }
+
+    public getDegreeCentrality(): Obj{
+        return this.getAttributes("degreeCentrality");
+    }
+    
+    public getBetweennessCentrality(): Obj{
+        return this.getAttributes("betweennessCentrality");
+    }
+    
+    public getClosenessCentrality(): Obj {
+        return this.getAttributes("closenessCentrality");
+    }
+
+    private getAttributes(attribute:string): Obj{
+        const cent:Obj = {};
+        this.graph.forEachNode(node => { cent[this.graph.getNodeAttribute(node, "label")] = this.graph.getNodeAttribute(node, attribute)})
+        return cent;
+    }
+
+    public hasCalculatedCentralities(): boolean {
+
+        let degree = this.graph.getNodeAttribute("A", "degreeCentrality") != undefined;
+        let closeness = this.graph.getNodeAttribute("A", "closenessCentrality") != undefined;
+        let betweenness = this.graph.getNodeAttribute("A", "betweennessCentrality") != undefined;
+
+        return degree && closeness && betweenness;
+    }
+
+    public async calculateCentralities(): Promise<boolean> {
+        this.calculateBetweennessCentrality();
+        this.calculateClosenessCentrality();
+        this.calculateDegreeCentrality();
+
+        return true;
     }
 
 }

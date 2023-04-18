@@ -47,12 +47,23 @@ const GraphSettingsController = ({graphInstance, setColoring, colorOption}) => {
         setCurrentColors(divs)
     }
 
+    const getOther = () => {
+        setCurrentColors(<div className="info">
+                                <span>Heatmap:</span>
+                                <div style={{background: "linear-gradient(90deg, rgba(0,0,255,1) 0%, rgba(0,255,0,1) 50%, rgba(255,0,0,1) 100%)"}} className="color_box">
+                                </div>
+                        </div>);
+    }
+
     useEffect(()=> {
         if(colorOption === "Louvain"){
             getLouvain();
         }
         else if(colorOption === "Sector"){
             getSectors();
+        }
+        else{
+            getOther();
         }
     }, [colorOption, graphInstance])
 
@@ -62,7 +73,6 @@ const GraphSettingsController = ({graphInstance, setColoring, colorOption}) => {
         else if(colorOption === "Sector")
             getSectors();
 
-        console.log(graphInstance);
     }, [])
 
     if(isShowing){
@@ -74,7 +84,7 @@ const GraphSettingsController = ({graphInstance, setColoring, colorOption}) => {
                         <div className="info">
                             <span>Graph Coloring:</span>
                             <Input  type="select" 
-                                    p_options={["Sector", "Louvain"]}
+                                    p_options={["Sector", "Louvain","Betweenness", "Degree", "Closeness"]}
                                     value={colorOption}
                                     onChange={(value) => {
                                         setColoring(value);

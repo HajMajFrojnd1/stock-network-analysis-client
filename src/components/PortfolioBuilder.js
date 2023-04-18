@@ -61,9 +61,9 @@ const PortfolioLayout = ({toggleMode}) => {
 
     const setOptions = async () => {
         let sim = await GraphFetch.fetchSimTypes();
-        setSimType(sim[1].name);
+        setSimType(sim[0].name);
         setSimTypes(sim.map((el) => {return el.name}));
-        dataFetch(aggrValue,rangeType,sim[1].name);
+        dataFetch(aggrValue,rangeType,sim[0].name);
     }
 
     const updateDateOptions = (options) =>{
@@ -173,9 +173,7 @@ const PortfolioLayout = ({toggleMode}) => {
         HistoryFetch.fetchPortfolioData(range, ["SPX"], currentDateRange[0], currentDateRange[1]).then((data) =>{
             let dates = data.splice(data.length-1, 1)[0];
             let stocks = Stocks.fromFetchedData(data);
-            console.log(stocks);
             let changes = stocks.getAverageChanges();
-            console.log(changes);
             let fin = changes.map((change, idx) => {
                 return {
                     name: dates[idx],
@@ -188,13 +186,12 @@ const PortfolioLayout = ({toggleMode}) => {
         HistoryFetch.fetchPortfolioData(range, graphNodes, currentDateRange[0], currentDateRange[1]).then((data) =>{
             let dates = data.splice(data.length-1, 1)[0];
             let degrees = graphInstance.getDegreeSum();
+            console.log(data);
             data = data.map((stock) => {
                 return {...stock, weight: graphInstance.getGraph().degree(stock.ticker)/degrees}
             });
             let stocks = Stocks.fromFetchedData(data);
-            console.log(stocks);
             let changes = stocks.getDegreeWeightedChanges();
-            console.log(changes);
             let fin = changes.map((change, idx) => {
                 return {
                     name: dates[idx],
@@ -226,7 +223,7 @@ const PortfolioLayout = ({toggleMode}) => {
 
     return (
         <div className="mw">
-            <div className="left-side" style={{marginRight:0}}>
+            <div className="left-side" style={{width:"85%",marginRight:0}}>
                 <TemporalTopBar dateOptions={dateOptions} 
                                 aggrValue={aggrValue}
                                 rangeType={rangeType}
@@ -259,7 +256,7 @@ const PortfolioLayout = ({toggleMode}) => {
                                     />
                 }
             </div>
-                <div className="right-side" style={{marginLeft: "1rem", width:"10%"}}>                
+                <div className="right-side" style={{marginLeft: "1rem", width:"15%"}}>                
                     <Information>
                         <FilterWrapper title="Degree">
                             <Input  type="number" 

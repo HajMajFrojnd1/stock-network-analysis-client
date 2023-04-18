@@ -9,8 +9,8 @@ import triple from "../images/triple_layout.svg"
 import network from "../images/graph_n.svg"
 import quad from "../images/quad_layout.svg"
 import candles from "../images/candles.svg"
+import single from "../images/single_layout.svg"
 import { types } from "../settings/graphFilters";
-import { useState } from "react";
 
 const TopBar = (props) =>{
 
@@ -45,7 +45,7 @@ const TopBar = (props) =>{
                 </FilterWrapper>
                 <FilterWrapper title="Lyout Option">
                     <Button class="special-button"  
-                            image={network}
+                            image={single}
                             onClick={
                                 () => props.changeLayout(props.layoutOptions.single)
                             }

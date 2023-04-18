@@ -8,7 +8,38 @@ import ForceAtlasGraph from "./ForceAtlasGraph";
 import MySigmaController from "./MySigmaController";
 import ComplexListener from "../scripts/ComplexListener";
 import { GraphInstance } from "../instances/GraphInstance.ts";
-import GraphSettingsController from "./GraphSettingsController";
+import HistoryFetch from "../scripts/historyFetching";
+import { Stocks } from "../instances/StockHistory.ts";
+
+const genericGraphStyle = {
+  border: "4px solid #0A0A0A",
+  boxSizing: "border-box",
+  position: "relative"
+}
+
+const graphStyleDoubleTop = {
+  width:"100%",
+  height:"50%",
+  ...genericGraphStyle
+}
+
+const graphStyleDoubleNext = {
+  width:"50%",
+  height:"100%",
+  ...genericGraphStyle
+}
+
+const graphStyleQuad = {
+  width:"50%",
+  height:"50%",
+  ...genericGraphStyle
+}
+
+const graphStyleSingle = {
+  width:"100%",
+  height:"100%",
+  ...genericGraphStyle
+}
 
  const DisplayGraph = (props) => {
 
@@ -23,11 +54,12 @@ import GraphSettingsController from "./GraphSettingsController";
 
         graph.clear();
         graph.clearEdges();
-  
+
+        /*graph.setAttribute("from", props.currentDate[0]);
+        graph.setAttribute("to", props.currentDate[1]);*/
 
         data.nodes.forEach(element => {
           graph.addNode(element.id, {
-  
             label:element.label, 
             color: stringToColour(String(element.sector)),
             x: Math.random(),
@@ -70,17 +102,23 @@ import GraphSettingsController from "./GraphSettingsController";
         });
 
         mainGraph.setGraph(graph);
-        
+        props.setInstance(mainGraph);
+
         forceUpdate();
       }
       
-
+  
     }
   
     useEffect(() => {
-
+      if(props.graphInstance === null){
         const graph = mainGraph.getGraph();
         updateSigma(props.graphsData,graph);
+      }else{
+        mainGraph.setGraph(props.graphInstance.getGraph());
+        props.setInstance(props.graphInstance);
+        forceUpdate();
+      }
 
     }, [props.graphsData]);
 
@@ -91,12 +129,12 @@ import GraphSettingsController from "./GraphSettingsController";
         
           <ForceAtlasGraph  graphInstance={mainGraph} 
                             coloring={"louvain"} 
-                            style={{width:"50%",height:"100%", border: "4px solid #0A0A0A", boxSizing: "border-box", position: "relative"}}
+                            style={graphStyleDoubleNext}
                             functions={{setStockInformation: props.setStockInformation}}
                             listener={controllerListener}
                             />
           <ForceAtlasGraph  graphInstance={mainGraph} 
-                            style={{width:"50%",height:"100%", border: "4px solid #0A0A0A", boxSizing: "border-box", position: "relative"}} 
+                            style={graphStyleDoubleNext} 
                             functions={{setStockInformation: props.setStockInformation}}
                             listener={controllerListener}
                             />
@@ -114,12 +152,12 @@ import GraphSettingsController from "./GraphSettingsController";
         
           <ForceAtlasGraph  graphInstance={mainGraph} 
                             coloring={"louvain"} 
-                            style={{width:"100%",height:"50%", border: "4px solid #0A0A0A", boxSizing: "border-box", position: "relative"}}
+                            style={graphStyleDoubleTop}
                             functions={{setStockInformation: props.setStockInformation}}
                             listener={controllerListener}
                             />
           <ForceAtlasGraph  graphInstance={mainGraph} 
-                            style={{width:"100%",height:"50%", border: "4px solid #0A0A0A", boxSizing: "border-box", position: "relative"}} 
+                            style={graphStyleDoubleTop} 
                             functions={{setStockInformation: props.setStockInformation}}
                             listener={controllerListener}
                             />
@@ -136,17 +174,17 @@ import GraphSettingsController from "./GraphSettingsController";
         <div className="graph-wrap">
         
           <ForceAtlasGraph  graphInstance={mainGraph} 
-                            style={{width:"50%",height:"50%", border: "4px solid #0A0A0A", boxSizing: "border-box", position: "relative"}}
+                            style={graphStyleQuad}
                             functions={{setStockInformation: props.setStockInformation}}
                             listener={controllerListener}
                             />
           <ForceAtlasGraph  graphInstance={mainGraph} 
-                            style={{width:"50%",height:"50%", border: "4px solid #0A0A0A", boxSizing: "border-box", position: "relative"}} 
+                            style={graphStyleQuad} 
                             functions={{setStockInformation: props.setStockInformation}}
                             listener={controllerListener}
                             />
           <ForceAtlasGraph  graphInstance={mainGraph} 
-                            style={{width:"100%",height:"50%", border: "4px solid #0A0A0A", boxSizing: "border-box", position: "relative"}} 
+                            style={graphStyleDoubleTop} 
                             functions={{setStockInformation: props.setStockInformation}}
                             listener={controllerListener}
                             />
@@ -164,22 +202,22 @@ import GraphSettingsController from "./GraphSettingsController";
         <div className="graph-wrap">
         
           <ForceAtlasGraph  graphInstance={mainGraph} 
-                            style={{width:"50%",height:"50%", border: "4px solid #0A0A0A", boxSizing: "border-box", position: "relative"}}
+                            style={graphStyleQuad}
                             functions={{setStockInformation: props.setStockInformation}}
                             listener={controllerListener}
                             />
           <ForceAtlasGraph  graphInstance={mainGraph} 
-                            style={{width:"50%",height:"50%", border: "4px solid #0A0A0A", boxSizing: "border-box", position: "relative"}} 
+                            style={graphStyleQuad} 
                             functions={{setStockInformation: props.setStockInformation}}
                             listener={controllerListener}
                             />
           <ForceAtlasGraph  graphInstance={mainGraph} 
-                            style={{width:"50%",height:"50%", border: "4px solid #0A0A0A", boxSizing: "border-box", position: "relative"}} 
+                            style={graphStyleQuad} 
                             functions={{setStockInformation: props.setStockInformation}}
                             listener={controllerListener}
                             />
           <ForceAtlasGraph  graphInstance={mainGraph} 
-                            style={{width:"50%",height:"50%", border: "4px solid #0A0A0A", boxSizing: "border-box", position: "relative"}}
+                            style={graphStyleQuad}
                             functions={{setStockInformation: props.setStockInformation}}
                             listener={controllerListener}
                             />
@@ -195,7 +233,7 @@ import GraphSettingsController from "./GraphSettingsController";
       <div className="graph-wrap">
         { mainGraph.getGraph().nodes().length > 0 &&
         <ForceAtlasGraph  graphInstance={mainGraph} 
-                          style={{width:"100%",height:"100%", border: "4px solid #0A0A0A", boxSizing: "border-box", position: "relative"}}
+                          style={graphStyleSingle}
                           functions={{setStockInformation: props.setStockInformation}}
                           listener={controllerListener}
                           />

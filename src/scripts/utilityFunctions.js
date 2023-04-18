@@ -41,12 +41,12 @@ function selectColor(colorNum, colors){
     return hslToHex((colorNum * (360 / colors) % 360),100,50);
 }
 
+var hex = function(x) {
+    x = x.toString(16);
+    return (x.length == 1) ? '0' + x : x;
+};
 const transitionColor = (color1, color2, percentage) =>{
 
-  var hex = function(x) {
-      x = x.toString(16);
-      return (x.length == 1) ? '0' + x : x;
-  };
 
   let r = Math.ceil(parseInt(color1.substring(0,2), 16) * percentage + parseInt(color2.substring(0,2), 16) * (1-percentage));
   let g = Math.ceil(parseInt(color1.substring(2,4), 16) * percentage + parseInt(color2.substring(2,4), 16) * (1-percentage));
@@ -70,6 +70,24 @@ const parseOptionsDate = (date) =>{
   return [start, end];
 }
 
+const interpolateHeatColor = (minValue, middleValue, maxValue, value) => {
+  const ratio = (value - minValue) / (maxValue - minValue);
+  
+  if (value <= middleValue) {
+    // use the ratio to interpolate between the minimum and middle colors
+    const r = Math.round(0 + (0 - 0) * (ratio / 0.5));
+    const g = Math.round(0 + (255 - 0) * (ratio / 0.5));
+    const b = Math.round(255 + (0 - 255) * (ratio / 0.5));
+    return "#" + hex(r) + hex(g) + hex(b);
+  } else {
+    // use the ratio to interpolate between the middle and maximum colors
+    const r = Math.round(0 + (255 - 0) * ((ratio - 0.5) / 0.5));
+    const g = Math.round(255 + (0 - 255) * ((ratio - 0.5) / 0.5));
+    const b = Math.round(0 + (0 - 0) * ((ratio - 0.5) / 0.5));
+    return "#" + hex(r) + hex(g) + hex(b);
+  }
+}
+
 module.exports.parseDate = parseDate;
 module.exports.stringToColour = stringToColour;
 module.exports.scaleRange = scaleRange;
@@ -77,3 +95,4 @@ module.exports.getRandomColor = selectColor;
 module.exports.transitionColor = transitionColor;
 module.exports.getPositionAlongTheLine = getPositionAlongTheLine;
 module.exports.parseOptionsDate = parseOptionsDate;
+module.exports.interpolateHeatColor = interpolateHeatColor;

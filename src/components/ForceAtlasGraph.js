@@ -53,9 +53,21 @@ const ForceAtlasGraph = ({graphInstance, style, listener, functions, useHook = f
                 sigma.setGraph(graphInstance.getSectorGraph());
                 loadGraph(graphInstance.getSectorGraph());
             }
-            else{
+            else if (coloring === "Louvain"){
                 sigma.setGraph(graphInstance.getLouvainGraph());
                 loadGraph(graphInstance.getLouvainGraph());
+            }
+            else if (coloring === "Betweenness"){
+                sigma.setGraph(graphInstance.getBetweennessGraph());
+                loadGraph(graphInstance.getBetweennessGraph());
+            }
+            else if (coloring === "Degree"){
+                sigma.setGraph(graphInstance.getDegreeGraph());
+                loadGraph(graphInstance.getDegreeGraph());
+            }
+            else if (coloring === "Closeness"){
+                sigma.setGraph(graphInstance.getClosenessGraph());
+                loadGraph(graphInstance.getClosenessGraph());
             }
         },[coloring])
 

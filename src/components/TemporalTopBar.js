@@ -3,7 +3,7 @@ import Input from "./Input";
 import Button from "./Button";
 import { types } from "../settings/graphFilters";
 import { useEffect } from "react";
-import single from "../images/single_layout.svg"
+import single from "../images/graph_n.svg"
 import graph from "../images/graph.svg"
 import timer from "../images/timer.svg"
 import candles from "../images/candles.svg"

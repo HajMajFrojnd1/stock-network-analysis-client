@@ -62,9 +62,9 @@ const TemporalLayout = ({toggleMode}) => {
 
     const setOptions = async () => {
         let sim = await GraphFetch.fetchSimTypes();
-        setSimType(sim[1].name);
+        setSimType(sim[0].name);
         setSimTypes(sim.map((el) => {return el.name}));
-        dataFetch(aggrValue,rangeType,sim[1].name);
+        dataFetch(aggrValue,rangeType,sim[0].name);
     }
 
     const updateDateOptions = (options) =>{

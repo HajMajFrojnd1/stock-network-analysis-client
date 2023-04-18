@@ -13,6 +13,7 @@
     "graphology": "^0.25.1",
     "graphology-communities-louvain": "^2.0.1",
     "graphology-layout-forceatlas2": "^0.10.1",
+    "graphology-metrics": "^2.1.0",
     "graphology-operators": "^1.6.0",
     "graphology-types": "^0.24.5",
     "lodash": "^4.17.21",
@@ -24,6 +25,7 @@
     "react-scripts": "^5.0.1",
     "react-stockcharts": "^0.7.8",
     "recharts": "^2.4.3",
+    "regression": "^2.0.1",
     "sigma": "^2.4.0",
     "typescript": "^4.9.5",
     "web-vitals": "^2.1.4"

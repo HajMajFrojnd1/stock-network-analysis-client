@@ -4,11 +4,15 @@ import TopBar from "./TopBar";
 import DisplayGraph from "./GraphExample";
 import TemporalLayout from "./TemporalLayout";
 import { aggr } from "../settings/graphFilters";
-import { parseDate } from "../scripts/utilityFunctions";
+import { parseDate, parseOptionsDate } from "../scripts/utilityFunctions";
 import { useState, useEffect } from "react";
 import GraphFetch from "../scripts/graphFetching";
 import PortfolioLayout from "./PortfolioBuilder";
 import CandleSicksTrend from "./CandleSticksTrend";
+import Button from "./Button";
+import visual from "../images/graph_n.svg"
+import chart from "../images/chart.svg"
+import DashBoard from "./DashBoard";
 
 const MainWrapper = () => {
 
@@ -17,10 +21,14 @@ const MainWrapper = () => {
     const [rangeType, setRangeType] = useState("day");
     const [aggrValue, setAggrValue] = useState(1);
     const [dateOptions, setDateOptions] = useState([]);
+    const [currentDate, setCurrentDate] = useState(null);
+    const [currentDateId, setCurrentDateId] = useState(null);
     const [simType, setSimType] = useState("gaussian_based");
     const [simTypes, setSimTypes] = useState([]);
     const [layout, setLayout] = useState("single");
-    const [isTemporalLayout, setIsTemporalLayout] = useState(3);
+    const [isTemporalLayout, setIsTemporalLayout] = useState(0);
+    const [dashBoard, setDashBoard] = useState(false);
+    const [graphInstance, setGraphInstance] = useState(null);
 
     const layout_types = {
         single: "single",
@@ -56,6 +64,7 @@ const MainWrapper = () => {
     }
 
     const updateGraphsData = (data) => {
+        setGraphInstance(null);
         setGraphsData(data);
     }
 
@@ -68,7 +77,8 @@ const MainWrapper = () => {
         setDateOptions(options);
     }
 
-    const changeOptions = (id) => {
+    const changeOptions = (id, date) => {
+        setCurrentDate(parseOptionsDate(date));
         fetchGraph(id);
     }
 
@@ -79,7 +89,7 @@ const MainWrapper = () => {
 
     const setOptions = async () => {
         let sim = await GraphFetch.fetchSimTypes();
-        setSimType(sim[1].name);
+        setSimType(sim[0].name);
         setSimTypes(sim.map((el) => {return el.name}));
     }
 
@@ -92,15 +102,10 @@ const MainWrapper = () => {
         });
         updateDateOptions(options);
         setOptions();
+        setCurrentDate(parseOptionsDate(options[0].dates));
         fetchGraph(options[0].id);
 
     }
-
-    useEffect(() => {
-    
-        console.log("hurray");
-
-    }, [graphsData.graph]);
 
     useEffect(() => {
     
@@ -129,6 +134,21 @@ const MainWrapper = () => {
     
     return (
         <div className="mw">
+            <div className="main-navbar">
+                <Button class="special-quad-button"  
+                                image={visual}
+                                onClick={
+                                    () => setDashBoard(false)
+                                }
+                                />
+                <Button class="special-quad-button"  
+                                image={chart}
+                                onClick={
+                                    () => setDashBoard(true)
+                                }
+                                />
+            </div>
+            {!dashBoard &&
             <div className="left-side">
                 <TopBar layoutOptions={layout_types} 
                         dateOptions={dateOptions} 
@@ -146,14 +166,20 @@ const MainWrapper = () => {
                 <div className="graph_right_side" >
                 <DisplayGraph   graphsData={graphsData} 
                                 setStockInformation={updateStockInformation}
+                                setInstance={setGraphInstance}
+                                graphInstance={graphInstance}
                                 layout={layout}
+                                currentDate={currentDate}
                                 />
                 <SideBar    stockInformation={stockInformation} 
-                        graphsData={graphsData}
-                        />
+                            graphsData={graphsData}
+                            />
                 </div>
             </div>
-
+            }
+            {dashBoard &&
+            <DashBoard  graphInstance={graphInstance}/>
+            }
         </div>
     );
 }

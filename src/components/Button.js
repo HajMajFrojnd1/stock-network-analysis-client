@@ -6,7 +6,7 @@ const Button = (props) => {
         <div style={{display:"flex", justifyContent:"center"}}>
                 <button className={props.class} 
                         onClick={e => {props.onClick();}}>
-                {props.class === "special-button" && 
+                {(props.class === "special-button" || props.class === "special-quad-button")  && 
                     <img alt="" src={props.image}></img>
                 }
                 {(props.class === "main-button" || props.class === "secondary-button") && 
