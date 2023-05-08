@@ -186,7 +186,6 @@ const PortfolioLayout = ({toggleMode}) => {
         HistoryFetch.fetchPortfolioData(range, graphNodes, currentDateRange[0], currentDateRange[1]).then((data) =>{
             let dates = data.splice(data.length-1, 1)[0];
             let degrees = graphInstance.getDegreeSum();
-            console.log(data);
             data = data.map((stock) => {
                 return {...stock, weight: graphInstance.getGraph().degree(stock.ticker)/degrees}
             });

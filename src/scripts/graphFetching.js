@@ -16,7 +16,6 @@ class GraphFetch {
     }
 
     static fetchNoDataSimilarity = async (aggregate,type,similarity) => {
-        console.log(similarity);
         return await (
           await fetch(
             "http://127.0.0.1:8081/graphs/simple/" + 

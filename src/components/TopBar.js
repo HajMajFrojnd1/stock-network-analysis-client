@@ -13,7 +13,6 @@ import single from "../images/single_layout.svg"
 import { types } from "../settings/graphFilters";
 
 const TopBar = (props) =>{
-
     return(
 
         <div className="top-bar">
@@ -43,7 +42,7 @@ const TopBar = (props) =>{
                             p_options={props.simTypesOptions}>
                     </Input>
                 </FilterWrapper>
-                <FilterWrapper title="Lyout Option">
+                <FilterWrapper title="Layout Option">
                     <Button class="special-button"  
                             image={single}
                             onClick={
@@ -88,12 +87,7 @@ const TopBar = (props) =>{
                                 () => props.toggleMode(2)
                             }
                             />
-                    <Button class="special-button"  
-                            image={candles}
-                            onClick={
-                                () => props.toggleMode(3)
-                            }
-                            />
+                    
                 </FilterWrapper>
         </div>
 

@@ -97,11 +97,9 @@ const DashBoard = ({graphInstance}) => {
 
     const calculateCentralities = () => {
         setIsLoading(true);
-        console.log("Calculating centralities");
         graphInstance.calculateCentralities().then((val) => {
 
             setIsLoading(false);
-            console.log(graphInstance.hasCalculatedCentralities());
             setHasCentralities(graphInstance.hasCalculatedCentralities());
 
         })
@@ -187,6 +185,7 @@ const DashBoard = ({graphInstance}) => {
             {!isRegression &&
             <div className='dashboard-graphs'>
                 <div className='dashboard-graph'>
+                    <h2>Degree Centrality</h2>
                     <ResponsiveContainer width="100%" height="100%">
                         <BarChart
                         width={500}
@@ -209,6 +208,7 @@ const DashBoard = ({graphInstance}) => {
                     </ResponsiveContainer>
                 </div>
                 <div className='dashboard-graph'>
+                    <h2>Closeness Centrality</h2>
                     <ResponsiveContainer width="100%" height="100%">
                         <BarChart
                         width={500}
@@ -231,6 +231,7 @@ const DashBoard = ({graphInstance}) => {
                     </ResponsiveContainer>
                 </div>
                 <div className='dashboard-graph'>
+                    <h2>Betweenness Centrality</h2>
                     <ResponsiveContainer width="100%" height="100%">
                         <BarChart
                         width={500}

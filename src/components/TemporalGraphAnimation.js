@@ -40,7 +40,6 @@ const TemporalGraphAnimation = ({currentGraph, nextGraph, listener, update, curr
         const addEdge = () =>{
             setTimeout(() => {
                 let att = graph2.getEdgeAttribute(edges[i++], "source");
-                console.log(att);
                 if(i < edges.length)
                     addEdge();
             }, one_reduction_time);
@@ -57,21 +56,9 @@ const TemporalGraphAnimation = ({currentGraph, nextGraph, listener, update, curr
         let one_reduction_time = Math.floor(length / edges.length);
         let i = 0;
 
-        const dropEdges = () =>{
-            if(i+5 < edges.length)
-                graph1.setEdgeAttribute(edges[i+5], "color", "#FF0000");
-            setTimeout(() => {
-                graph1.dropEdge(edges[i++]);
-                if(i < edges.length){
-                    dropEdges();
-                }
-                else{
-                    //addEdges(graph1,graph2);
-                }
-            }, one_reduction_time);
+        for(; i < edges.length; i++){
+            graph1.dropEdge(edges[i]);
         }
-
-        dropEdges();
     }
 
     const animateNodes = () =>{
@@ -81,7 +68,7 @@ const TemporalGraphAnimation = ({currentGraph, nextGraph, listener, update, curr
                     percentage += 0.001;
                     animateNodes();
                     graph.updateEachNodeAttributes((node, attributes) => {
-                        if(graph.hasNode(node)){
+                        if(graph.hasNode(node) && nextGraph.hasNode(node)){
                             let other_attributes = nextGraph.getNodeAttributes(node);
                             let pos = getPositionAlongTheLine(
                                             attributes.old_x, 
@@ -111,7 +98,7 @@ const TemporalGraphAnimation = ({currentGraph, nextGraph, listener, update, curr
                 }else{
                     percentage = 1;
                     graph.updateEachNodeAttributes((node, attributes) => {
-                        if(graph.hasNode(node)){
+                        if(graph.hasNode(node && nextGraph.hasNode(node))){
                             let other_attributes = nextGraph.getNodeAttributes(node);
                             let pos = getPositionAlongTheLine(
                                                                 attributes.old_x, 
@@ -150,7 +137,7 @@ const TemporalGraphAnimation = ({currentGraph, nextGraph, listener, update, curr
     }
 
     const animate = () => {
-        setAnimationStarted(true);
+        setAnimationStarted(!animationStarted);
     }    
 
     const stopAnimate = () => {
@@ -165,21 +152,21 @@ const TemporalGraphAnimation = ({currentGraph, nextGraph, listener, update, curr
                 attributes.old_color = attributes.color
             })
             setGraph(currentGraph);
+
+            listener.addListener(animate, "start");
+            listener.addListener(stopAnimate, "stop");
         }
         
         if(animationStarted){
             animateNodes();
             reduceEdges(currentGraph,nextGraph);
         }
-        console.log("added");
-        listener.addListener(animate, "start");
 
-        listener.addListener(stopAnimate, "stop");
+        
 
         return(() => {
             listener.removeListener(animate, "start");
             listener.removeListener(stopAnimate, "stop");
-            console.log("removed");
         })
 
     },[])
@@ -189,7 +176,6 @@ const TemporalGraphAnimation = ({currentGraph, nextGraph, listener, update, curr
             animateNodes();
             reduceEdges(currentGraph,nextGraph);
         }
-        console.log(animationStarted);
     }, [animationStarted])
 
     if(graph){

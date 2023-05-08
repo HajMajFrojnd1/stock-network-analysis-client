@@ -4,6 +4,11 @@ const types = [
     "year",
     "historical"
 ];
+const ntypes = [
+    "day", 
+    "month", 
+    "year"
+];
 const aggr = {
     "day": {min: 1, max: 30},
     "month": {min: 1, max: 6}, 
@@ -23,4 +28,5 @@ const chartOptions = [
 
 module.exports.aggr = aggr;
 module.exports.types = types;
+module.exports.ntypes = ntypes;
 module.exports.chartOptions = chartOptions;

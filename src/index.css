@@ -110,6 +110,18 @@ button{
   height: calc(50% - 1rem);
   background-color: #171717;
   border-radius: 1rem;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+}
+
+.dashboard-graph h2{
+  font-family: "Poppins";
+  font-weight: 600;
+  font-size: 1.5rem;
+  color: #fff;
+  margin: 1rem;
+  margin-bottom: 0;
 }
 
 .main-navbar div + div{

@@ -1,7 +1,7 @@
 import FilterWrapper from "./FilterWrapper";
 import Input from "./Input";
 import Button from "./Button";
-import { types } from "../settings/graphFilters";
+import { ntypes } from "../settings/graphFilters";
 import { useEffect } from "react";
 import single from "../images/graph_n.svg"
 import graph from "../images/graph.svg"
@@ -22,7 +22,7 @@ const TemporalTopBar = (props) => {
                         <Input  type="select" 
                                 rangeType={props.rangeType} 
                                 onChange={props.rangeChange} 
-                                p_options={typeof props.types === "object" ? props.types : types}>
+                                p_options={typeof props.ntypes === "object" ? props.types : ntypes}>
                         </Input>
                     </FilterWrapper>
                     <FilterWrapper title="Range">
@@ -60,12 +60,7 @@ const TemporalTopBar = (props) => {
                             }
                             />
                     }
-                    <Button class="special-button"  
-                            image={candles}
-                            onClick={
-                                () => props.toggleMode(3)
-                            }
-                            />
+                    
                 </FilterWrapper>
         </div>
     )

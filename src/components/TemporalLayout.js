@@ -21,6 +21,7 @@ const TemporalLayout = ({toggleMode}) => {
     const [rangeType, setRangeType] = useState("day");
     const [simType, setSimType] = useState("gaussian-based");
     const [currentDateRange, setCurrentDateRange] = useState(null);
+    const [rangeTexts, setRangeTexts] = useState([]);
     const [dateOptions, setDateOptions] = useState([]);
     const [simTypes, setSimTypes] = useState([]);
     const [aggregatedGraphs, setAggregatedGraphs] = useState([]);
@@ -28,6 +29,7 @@ const TemporalLayout = ({toggleMode}) => {
     const [currentGraph, setCurrentGraph] = useState(null);
     const [nextGraph, setNextGraph] = useState(null);
     const [isLoading , setIsLoading] = useState(true);
+    const [reset, setReset] = useState(false);
     const [, updateState] = useState();
     const forceUpdate = useCallback(() => updateState({}), []);
 
@@ -43,14 +45,18 @@ const TemporalLayout = ({toggleMode}) => {
                         }
 
     const updateAggrValue = (value) => {
+        controllerListener.cleanListeners();
+        if(value == 1) return;
         setAggrValue(value);
         dataFetch(value, rangeType, simType);
     }    
     
     const updateRangeType = (type) => {
+        controllerListener.cleanListeners();
         setRangeType(type);
         if (aggrValue < aggr[type].min || aggrValue > aggr[type].max){
-            updateAggrValue(aggr[rangeType].min);
+            updateAggrValue(2);
+            return;
         }
         dataFetch(aggrValue,type,simType);
     }
@@ -80,7 +86,6 @@ const TemporalLayout = ({toggleMode}) => {
         if(index === aggregatedGraphs.length){
             index = 0;
         }
-        console.log("index: ", index);
         
         setAggregatedGraphsPos(index);
 
@@ -104,6 +109,8 @@ const TemporalLayout = ({toggleMode}) => {
                 }
             });
         })
+
+        setReset(!reset)
 
         forceUpdate();
 
@@ -151,6 +158,11 @@ const TemporalLayout = ({toggleMode}) => {
         setGraphLouvain(graph);
         forceAtlas2.assign(graph, settings);
 
+        graph.mapNodes((node,attributes) =>{
+            attributes.old_x = attributes.x;
+            attributes.old_y = attributes.y
+            attributes.old_color = attributes.color
+        })
 
         return graph;
     }
@@ -160,6 +172,7 @@ const TemporalLayout = ({toggleMode}) => {
         setAggregatedGraphs(graphs);
         setCurrentGraph(graphs[0]);
         setNextGraph(graphs[1]);
+        forceUpdate();
     }
 
     const fetchAggregatedGraphs = async () => {
@@ -175,26 +188,35 @@ const TemporalLayout = ({toggleMode}) => {
                 rangeGraphs.push(range);
             }
         });
-        console.log(rangeGraphs);
-        //setCurrentDateRange([rangeGraphs[1].start, rangeGraphs[0].start]);
+
+
+        let ran = rangeGraphs.map(range => {
+            let dates = parseOptionsDate(parseDate(range.start,range.end))
+            return dates[0] + " " + dates[1];
+        })
+
+
+        setRangeTexts(ran.reverse());
+
         let finalGraphs = rangeGraphs.map((range) => {
             return GraphFetch.fetchGraphId(range.id);
         });
-
         Promise.all(finalGraphs).then((pgraphs) => {
             let graphs = pgraphs.map((graph) => {
                 return createGraphFixedPosition(graph[0].data);
             })
-
             resetGraphs(graphs);
             setIsLoading(false);
         });
+
+        controllerListener.cleanListeners();
 
     }
 
     const dataFetch = async (aggregate,type, sim_type) => {
         
         const data = await GraphFetch.fetchNoDataSimilarity(aggregate,type,sim_type);
+
 
         let options = [];
         data.forEach(element => {
@@ -205,9 +227,6 @@ const TemporalLayout = ({toggleMode}) => {
         updateDateOptions(options);
     }
 
-    useEffect(() => {
-        dataFetch(aggrValue, rangeType, simType);
-    }, [aggrValue])
 
     useEffect(() => {
         if(currentGraph){
@@ -225,6 +244,43 @@ const TemporalLayout = ({toggleMode}) => {
     useEffect(() => {
         setOptions();
     },[]);
+
+    if(!isLoading){
+
+        return (
+            <div className="mw">
+                <div className="left-side" style={{marginRight:0}}>
+                    <TemporalTopBar dateOptions={dateOptions} 
+                                    aggrValue={aggrValue}
+                                    rangeType={rangeType}
+                                    simTypesOptions={simTypes}
+                                    aggrChange={updateAggrValue}
+                                    rangeChange={updateRangeType}
+                                    changeOptions={changeOptions}
+                                    toggleMode={toggleMode}
+                                    modes={2}
+                                    />
+                    {
+                        isLoading && <SemipolarLoading size={"large"}/>
+                    }
+                    {
+                        !isLoading  && <TemporalGraphAnimation  currentGraph={currentGraph.copy()}
+                                                                nextGraph={nextGraph.copy()}
+                                                                listener={controllerListener}
+                                                                update={updateTemporalGraph}
+                                                                currentDate={rangeTexts[aggregatedGraphsPos]}
+                                                                />
+                                                                
+                                                            }                   
+                
+                        <MySigmaController  listener={controllerListener}
+                                            reset={reset}
+                                            />
+                </div>
+            </div>
+        )
+
+    }
 
     return (
         <div className="mw">
@@ -247,12 +303,12 @@ const TemporalLayout = ({toggleMode}) => {
                                                             nextGraph={nextGraph.copy()}
                                                             listener={controllerListener}
                                                             update={updateTemporalGraph}
-                                                            currentDate={currentDateRange[aggregatedGraphsPos]}
+                                                            currentDate={rangeTexts[aggregatedGraphsPos]}
                                                             />
                                                             
                                                         }                   
             
-                    <MySigmaController  listener={controllerListener}/>
+                    
             </div>
         </div>
     )

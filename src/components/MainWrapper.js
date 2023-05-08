@@ -22,7 +22,6 @@ const MainWrapper = () => {
     const [aggrValue, setAggrValue] = useState(1);
     const [dateOptions, setDateOptions] = useState([]);
     const [currentDate, setCurrentDate] = useState(null);
-    const [currentDateId, setCurrentDateId] = useState(null);
     const [simType, setSimType] = useState("gaussian_based");
     const [simTypes, setSimTypes] = useState([]);
     const [layout, setLayout] = useState("single");
@@ -51,6 +50,7 @@ const MainWrapper = () => {
     }
 
     const updateRangeType = (type) => {
+       
         setRangeType(type);
         if (aggrValue < aggr[type].min || aggrValue > aggr[type].max){
             updateAggrValue(aggr[rangeType].min);
@@ -89,7 +89,7 @@ const MainWrapper = () => {
 
     const setOptions = async () => {
         let sim = await GraphFetch.fetchSimTypes();
-        setSimType(sim[0].name);
+        setSimType(sim[1].name);
         setSimTypes(sim.map((el) => {return el.name}));
     }
 
@@ -112,14 +112,6 @@ const MainWrapper = () => {
         dataFetch(aggrValue,"day",simType);
 
     }, []);
-
-    if(isTemporalLayout === 3){
-        return (
-            <CandleSicksTrend   toggleMode={toggleMode}
-                                simTypes={simTypes}
-                                />
-        )
-    }
 
     if(isTemporalLayout === 2){
         return (
