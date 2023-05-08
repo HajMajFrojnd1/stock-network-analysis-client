@@ -5,7 +5,7 @@ class HistoryFetch {
 
         return await (
           await fetch(
-            "http://127.0.0.1:8081/hostorical/" + start + "/" + end
+            "http://164.90.189.8:8081/hostorical/" + start + "/" + end
           )
         ).json();
     
@@ -15,7 +15,7 @@ class HistoryFetch {
 
         return await (
             await fetch(
-              "http://127.0.0.1:8081/spx/" + start + "/" + end
+              "http://164.90.189.8:8081/spx/" + start + "/" + end
             )
           ).json();
 
@@ -30,7 +30,7 @@ class HistoryFetch {
       console.log(requestOptions);
       return await (
         await fetch(
-          "http://127.0.0.1:8081/portfolio/data",
+          "http://164.90.189.8:8081/portfolio/data",
           requestOptions
         )
       ).json();
@@ -39,7 +39,7 @@ class HistoryFetch {
     static fetchSpxCandlesticks = async () => {
       return await (
         await fetch(
-          "http://127.0.0.1:8081/spx/candlesticks"
+          "http://164.90.189.8:8081/spx/candlesticks"
         )
       ).json();
     }
